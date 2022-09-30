@@ -1,0 +1,5 @@
+module Passkit
+  class GeneratorObject
+    def id: () -> String
+  end
+end

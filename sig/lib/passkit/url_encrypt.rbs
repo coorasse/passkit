@@ -1,0 +1,6 @@
+module Passkit
+  class UrlEncrypt
+    def self.encrypt: (Hash[untyped, untyped] payload) -> String
+    def self.decrypt: (String string) -> Hash[Symbol, untyped]
+  end
+end

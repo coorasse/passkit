@@ -1,0 +1,21 @@
+<header>
+  <h1>Passkit Previews</h1>
+  <%= render 'shared/passkit/navigation' %>
+</header>
+<main>
+  <p>Here you can generate a Pass from the ones available. Configure your available passes with:</p>
+  <pre>
+  Passkit.configure do |config|
+    config.available_passes['Passkit::YourPass'] = -> { FactoryBot.create(:user) }
+  end
+</pre>
+  <p>Where you specify the class name as key and a function to generate a builder,
+    that will be passed used to generte the Pass</p>
+
+  <% Passkit.configuration.available_passes.each do |pass_class_name, _builder_function| %>
+    <article>
+      <h2><%= pass_class_name %></h2>
+      <%= link_to 'Generate and download', preview_path(pass_class_name) %>
+    </article>
+  <% end %>
+</main>

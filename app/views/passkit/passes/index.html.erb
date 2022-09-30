@@ -1,0 +1,32 @@
+<header>
+  <h1>Passkit Passes</h1>
+  <%= render 'shared/passkit/navigation' %>
+</header>
+
+<main>
+  <h2>Last 100 passes and registered devices</h2>
+  <table>
+    <thead>
+    <th>Created at</th>
+    <th>Generator</th>
+    <th>Pass Class</th>
+    <th>Devices</th>
+    </thead>
+    <tbody>
+    <% @passes.each do |pass| %>
+      <tr>
+        <td><%= I18n.l(pass.created_at) %></td>
+        <td><%= pass.generator.to_s %></td>
+        <td><%= pass.klass %></td>
+        <td>
+          <% pass.devices.each do |device| %>
+            <div>
+                <%= device.push_token %>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</main>

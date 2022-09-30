@@ -1,0 +1,8 @@
+module Passkit
+  class Generator
+    TMP_FOLDER: String
+
+    def initialize: (Passkit::Pass pass) -> void
+    def generate_and_sign: () -> String
+  end
+end

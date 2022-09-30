@@ -1,0 +1,9 @@
+module Passkit
+  class UrlGenerator
+    def initialize: (Class passClass, GeneratorObject ?generator) -> void
+    def ios: () -> String
+
+    # @see https://walletpasses.io/developer/
+    def android: () -> String
+  end
+end

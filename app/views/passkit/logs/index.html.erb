@@ -1,0 +1,22 @@
+<header>
+  <h1>Passkit Logs</h1>
+  <%= render 'shared/passkit/navigation' %>
+</header>
+
+<main>
+    <h2>Last 100 log entries</h2>
+    <table>
+      <thead>
+        <th>Timestamp</th>
+        <th>Content</th>
+      </thead>
+      <tbody>
+      <% @logs.each do |log| %>
+        <tr>
+          <td><%= I18n.l(log.created_at) %></td>
+          <td><%= log.content.sub(/^\[.*\]/, '') %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+</main>

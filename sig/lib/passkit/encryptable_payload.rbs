@@ -1,0 +1,5 @@
+module Passkit
+  class EncryptablePayload
+    def to_json: () -> Hash[Symbol, String]
+  end
+end
