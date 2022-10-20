@@ -37,6 +37,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "sqlite3", "~> 1.4"
   spec.add_development_dependency "sprockets-rails", "~> 3.0"
   spec.add_development_dependency "dotenv"
+  spec.add_development_dependency "capybara"
+  spec.add_development_dependency "selenium-webdriver"
+  spec.add_development_dependency "webrick"
   spec.add_development_dependency "standard", "~> 1.9"
 
   # For more information and examples about making a new gem, check out our

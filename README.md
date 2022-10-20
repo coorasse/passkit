@@ -22,11 +22,6 @@ This gem provides everything necessary to distribute Wallet Passes in pkpass for
 * Push notifications: this is the most wanted feature I believe. Pull requests are welcome!
 * Google Wallet integration: we use https://walletpasses.io/ on Android to read .pkpass format.
 
-## Apple documentation
-
-* [Apple Wallet Passes](https://developer.apple.com/documentation/walletpasses)
-* [Send Push Notifications](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns)
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -79,9 +74,26 @@ If you followed the installation steps and you have the ENV variables set, we ca
 
 ### Dashboard
 
-Head to `http://localhost:3000/passkit/previews` and you will see a first `ExampleStoreCard` available for download.
+Head to `http://localhost:3000/passkit/dashboard/previews` and you will see a first `ExampleStoreCard` available for download.
 You can click on the button and you will obtain a `.pkpass` file that you can simply open or install on your phone.
 The dashboard has also a view for logs, and a view for emitted passes.
+
+By default the dashboard is protected with basic auth. Set the credentials using these ENV variables:
+* `PASSKIT_DASHBOARD_USERNAME`
+* `PASSKIT_DASHBOARD_PASSWORD`
+
+You can also change the authentication method used (see example below for Devise):
+
+```ruby
+# config/passkit.rb
+
+Passkit.configure do |config|
+  config.authenticate_dashboard_with do
+    warden.authenticate! scope: :user
+    ## redirect_to main_app.root_path unless warden.user.admin? # if you want to check a specific role
+  end
+end
+```
 
 ### Mailer Helpers
 
@@ -134,6 +146,12 @@ Again, check the example mailer included in the gem to see how to use it.
 * Check the logs on http://localhost:3000/passkit/logs
 * In case of error "The passTypeIdentifier or teamIdentifier provided may not match your certificate, 
 or the certificate trust chain could not be verified." the certificate (p12) might be expired.
+
+
+## Apple documentation
+
+* [Apple Wallet Passes](https://developer.apple.com/documentation/walletpasses)
+* [Send Push Notifications](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns)
 
 ## Development
 

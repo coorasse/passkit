@@ -14,7 +14,7 @@ Passkit::Engine.routes.draw do
     end
   end
 
-  unless Rails.env.production?
+  namespace :dashboard do
     resources :previews, only: [:index, :show], param: :class_name
     resources :logs, only: [:index]
     resources :passes, only: [:index]

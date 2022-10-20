@@ -17,7 +17,7 @@ module Passkit
 
   def self.configure
     self.configuration ||= Configuration.new
-    yield(configuration)
+    yield(configuration) if block_given?
   end
 
   class Configuration
@@ -28,6 +28,16 @@ module Passkit
       :apple_intermediate_certificate,
       :apple_team_identifier,
       :pass_type_identifier
+
+    DEFAULT_AUTHENTICATION = proc do
+      authenticate_or_request_with_http_basic("Passkit Dashboard. Login required") do |username, password|
+        username == ENV["PASSKIT_DASHBOARD_USERNAME"] && password == ENV["PASSKIT_DASHBOARD_PASSWORD"]
+      end
+    end
+    def authenticate_dashboard_with(&block)
+      @authenticate = block if block
+      @authenticate || DEFAULT_AUTHENTICATION
+    end
 
     def initialize
       @available_passes = {"Passkit::ExampleStoreCard" => -> {}}

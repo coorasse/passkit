@@ -15,7 +15,7 @@
   <% Passkit.configuration.available_passes.each do |pass_class_name, _builder_function| %>
     <article>
       <h2><%= pass_class_name %></h2>
-      <%= link_to 'Generate and download', preview_path(pass_class_name) %>
+      <%= link_to 'Generate and download', dashboard_preview_path(pass_class_name) %>
     </article>
   <% end %>
 </main>
