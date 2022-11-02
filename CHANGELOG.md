@@ -1,3 +1,7 @@
+## [0.4.1]
+
+- Allow the registration of two passes on the same device.
+
 ## [0.4.0]
 
 - Allow to use the dashboard also in production.

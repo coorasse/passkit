@@ -78,7 +78,8 @@ module Passkit
         end
 
         def register_device
-          @pass.devices.create!(identifier: params[:device_id], push_token: push_token)
+          device = Passkit::Device.find_or_create_by!(identifier: params[:device_id]) { |d| d.push_token = push_token }
+          @pass.registrations.create!(device: device)
         end
 
         def fetch_registered_passes
