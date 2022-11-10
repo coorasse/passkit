@@ -1,3 +1,7 @@
+## [0.4.2]
+
+- Fix the unregister endpoint.
+
 ## [0.4.1]
 
 - Allow the registration of two passes on the same device.

@@ -28,6 +28,14 @@ class TestRegistrationsController < ActionDispatch::IntegrationTest
   end
 
   def test_destroy
+    Passkit::Factory.create_pass(Passkit::ExampleStoreCard)
+    pass = Passkit::Pass.first
+    register_pass(pass)
+    destroy_registration(pass.registrations.first)
+    assert_equal 0, pass.devices.count
+    assert_equal 0, Passkit::Registration.count
+    assert_equal 1, Passkit::Pass.count
+    assert_equal 1, Passkit::Device.count
   end
 
   private
@@ -36,5 +44,13 @@ class TestRegistrationsController < ActionDispatch::IntegrationTest
     post device_register_path(device_id: 1, pass_type_id: pass.pass_type_identifier, serial_number: pass.serial_number),
       params: {pushToken: "1234567890"}.to_json,
       headers: {"Authorization" => "ApplePass #{pass.authentication_token}"}
+  end
+
+  def destroy_registration(registration)
+    delete device_unregister_path(device_id: registration.device.id,
+      pass_type_id: registration.pass.pass_type_identifier,
+      serial_number: registration.pass.serial_number),
+      params: {}.to_json,
+      headers: {"Authorization" => "ApplePass #{registration.pass.authentication_token}"}
   end
 end

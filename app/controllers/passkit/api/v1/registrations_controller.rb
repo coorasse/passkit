@@ -48,14 +48,9 @@ module Passkit
         # @return If the request is not authorized, returns HTTP status 401.
         # @return Otherwise, returns the appropriate standard HTTP status.
         def destroy
-          devices = @pass.devices.where(device_id: params[:device_id],
-            pass_type_id: params[:pass_type_id])
-          if devices.any?
-            devices.delete_all
-            render json: {}, status: :ok
-          else
-            render json: {}, status: :unauthorized
-          end
+          registrations = @pass.registrations.where(passkit_device_id: params[:device_id])
+          registrations.delete_all
+          render json: {}, status: :ok
         end
 
         private
