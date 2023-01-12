@@ -134,7 +134,7 @@ Use the [Passkit::UrlGenerator](lib/passkit/url_generator.rb) to generate the UR
 You can initialize it with:
 
 ```ruby
-Passkit::UrlGenerator.new(pass_class: Passkit::MyPass, generator: User.find(1))
+Passkit::UrlGenerator.new(Passkit::MyPass, User.find(1))
 ```
 
 and then use `.android` or `.ios` to get the URL to serve the Wallet Pass.
