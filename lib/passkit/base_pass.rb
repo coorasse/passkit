@@ -52,6 +52,10 @@ module Passkit
       "rgb(255, 255, 255)"
     end
 
+    def label_color
+      "rgb(255, 255, 255)"
+    end
+
     def organization_name
       "Passkit"
     end
