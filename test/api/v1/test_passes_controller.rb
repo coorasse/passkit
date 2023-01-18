@@ -21,15 +21,15 @@ class TestPassesController < ActionDispatch::IntegrationTest
     _pkpass = Passkit::Factory.create_pass(Passkit::ExampleStoreCard)
     assert_equal 1, Passkit::Pass.count
     pass = Passkit::Pass.last
-    get pass_path(pass_type_id: ENV["PASSKIT_PASS_TYPE_IDENTIFIER"], serial_number: pass.serial_number)
+    get pass_path(pass_type_id: Passkit.configuration.pass_type_identifier, serial_number: pass.serial_number)
     assert_response :unauthorized
 
-    get pass_path(pass_type_id: ENV["PASSKIT_PASS_TYPE_IDENTIFIER"], serial_number: pass.serial_number),
+    get pass_path(pass_type_id: Passkit.configuration.pass_type_identifier, serial_number: pass.serial_number),
       headers: {"Authorization" => "ApplePass #{pass.authentication_token}"}
 
     assert_response :success
 
-    get pass_path(pass_type_id: ENV["PASSKIT_PASS_TYPE_IDENTIFIER"], serial_number: pass.serial_number),
+    get pass_path(pass_type_id: Passkit.configuration.pass_type_identifier, serial_number: pass.serial_number),
       headers: {"Authorization" => "ApplePass #{pass.authentication_token}", "If-Modified-Since" => Time.zone.now.httpdate}
 
     assert_equal "", response.body

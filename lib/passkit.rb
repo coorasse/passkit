@@ -28,16 +28,18 @@ module Passkit
       :private_p12_certificate,
       :apple_intermediate_certificate,
       :apple_team_identifier,
-      :pass_type_identifier
+      :pass_type_identifier,
+      :format_version,
+      :dashboard_username,
+      :dashboard_password
 
-    DEFAULT_AUTHENTICATION = proc do
-      authenticate_or_request_with_http_basic("Passkit Dashboard. Login required") do |username, password|
-        username == ENV["PASSKIT_DASHBOARD_USERNAME"] && password == ENV["PASSKIT_DASHBOARD_PASSWORD"]
-      end
-    end
     def authenticate_dashboard_with(&block)
       @authenticate = block if block
-      @authenticate || DEFAULT_AUTHENTICATION
+      @authenticate || proc do
+        authenticate_or_request_with_http_basic("Passkit Dashboard. Login required") do |username, password|
+          username == dashboard_username && password == dashboard_password
+        end
+      end
     end
 
     def initialize
@@ -48,6 +50,7 @@ module Passkit
       @apple_intermediate_certificate = ENV["PASSKIT_APPLE_INTERMEDIATE_CERTIFICATE"]
       @apple_team_identifier = ENV["PASSKIT_APPLE_TEAM_IDENTIFIER"]
       @pass_type_identifier = ENV["PASSKIT_PASS_TYPE_IDENTIFIER"]
+      @format_version = ENV["PASSKIT_FORMAT_VERSION"] || 1
     end
 
     def validate!

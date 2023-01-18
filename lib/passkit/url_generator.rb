@@ -3,7 +3,7 @@ module Passkit
     include Passkit::Engine.routes.url_helpers
 
     def initialize(pass_class, generator = nil)
-      @url = passes_api_url(host: ENV["PASSKIT_WEB_SERVICE_HOST"],
+      @url = passes_api_url(host: Passkit.configuration.web_service_host,
         payload: PayloadGenerator.encrypted(pass_class, generator))
     end
 
