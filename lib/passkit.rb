@@ -60,7 +60,7 @@ module Passkit
       raise("PASSKIT_WEB_SERVICE_HOST must start with https://") unless web_service_host.start_with?("https://")
 
       if wwdc_cert
-        intermediate_certificate = OpenSSL::X509::Certificate.new(File.read(Rails.root_join(wwdc_cert)))
+        intermediate_certificate = OpenSSL::X509::Certificate.new(File.read(Rails.root.join(wwdc_cert)))
       else
         raise "Please set PASSKIT_WWDC_CERT"
       end
@@ -69,10 +69,10 @@ module Passkit
       raise "Please set PASSKIT_P12_PASSWORD" unless p12_password
 
       if p12_key
-        key = OpenSSL::PKey::RSA.new(p12_key, p12_password)
-        cert = OpenSSL::X509::Certificate.new(p12_certificate)
+        key = OpenSSL::PKey::RSA.new(File.read(Rails.root.join(p12_key)), p12_password)
+        cert = OpenSSL::X509::Certificate.new(File.read(Rails.root.join(p12_certificate)))
       else
-        p12_certificate = OpenSSL::PKCS12.new(File.read(Rails.root.join(Passkit.configuration.p12_certificate)), Passkit.configuration.p12_password)
+        p12_certificate = OpenSSL::PKCS12.new(File.read(Rails.root.join(p12_certificate)), p12_password)
         key = p12_certificate.key
         cert = p12_certificate.certificate
       end

@@ -92,8 +92,8 @@ module Passkit
       intermediate_certificate = OpenSSL::X509::Certificate.new(File.read(Rails.root.join(Passkit.configuration.wwdc_cert)))
 
       if Passkit.configuration.p12_key
-        key = OpenSSL::PKey::RSA.new(Passkit.configuration.p12_key, Passkit.configuration.p12_password)
-        cert = OpenSSL::X509::Certificate.new(Passkit.configuration.p12_certificate)
+        key = OpenSSL::PKey::RSA.new(File.read(Rails.root.join(Passkit.configuration.p12_key)), Passkit.configuration.p12_password)
+        cert = OpenSSL::X509::Certificate.new(File.read(Rails.root.join(Passkit.configuration.p12_certificate)))
       else
         p12_certificate = OpenSSL::PKCS12.new(File.read(Rails.root.join(Passkit.configuration.p12_certificate)), Passkit.configuration.p12_password)
         key = p12_certificate.key
