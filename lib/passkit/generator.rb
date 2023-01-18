@@ -89,7 +89,7 @@ module Passkit
 
     # :nocov:
     def sign_manifest
-      p12_certificate = OpenSSL::PKCS12.new(Rails.root.join(Passkit.configuration.private_p12_certificate), Passkit.configuration.certificate_key)
+      p12_certificate = OpenSSL::PKCS12.new(File.read(Rails.root.join(Passkit.configuration.private_p12_certificate)), Passkit.configuration.certificate_key)
       intermediate_certificate = OpenSSL::X509::Certificate.new(File.read(Rails.root.join(Passkit.configuration.apple_intermediate_certificate)))
 
       flag = OpenSSL::PKCS7::DETACHED | OpenSSL::PKCS7::BINARY
