@@ -18,6 +18,7 @@ module Passkit
   def self.configure
     self.configuration ||= Configuration.new
     yield(configuration) if block_given?
+    configuration.validate!
   end
 
   class Configuration
@@ -41,13 +42,22 @@ module Passkit
 
     def initialize
       @available_passes = {"Passkit::ExampleStoreCard" => -> {}}
-      @web_service_host = ENV["PASSKIT_WEB_SERVICE_HOST"] || (raise "Please set PASSKIT_WEB_SERVICE_HOST")
+      @web_service_host = ENV["PASSKIT_WEB_SERVICE_HOST"]
+      @certificate_key = ENV["PASSKIT_CERTIFICATE_KEY"]
+      @private_p12_certificate = ENV["PASSKIT_PRIVATE_P12_CERTIFICATE"]
+      @apple_intermediate_certificate = ENV["PASSKIT_APPLE_INTERMEDIATE_CERTIFICATE"]
+      @apple_team_identifier = ENV["PASSKIT_APPLE_TEAM_IDENTIFIER"]
+      @pass_type_identifier = ENV["PASSKIT_PASS_TYPE_IDENTIFIER"]
+    end
+
+    def validate!
+      raise "Please set PASSKIT_WEB_SERVICE_HOST" unless web_service_host
       raise("PASSKIT_WEB_SERVICE_HOST must start with https://") unless @web_service_host.start_with?("https://")
-      @certificate_key = ENV["PASSKIT_CERTIFICATE_KEY"] || (raise "Please set PASSKIT_CERTIFICATE_KEY")
-      @private_p12_certificate = ENV["PASSKIT_PRIVATE_P12_CERTIFICATE"] || (raise "Please set PASSKIT_PRIVATE_P12_CERTIFICATE")
-      @apple_intermediate_certificate = ENV["PASSKIT_APPLE_INTERMEDIATE_CERTIFICATE"] || (raise "Please set PASSKIT_APPLE_INTERMEDIATE_CERTIFICATE")
-      @apple_team_identifier = ENV["PASSKIT_APPLE_TEAM_IDENTIFIER"] || (raise "Please set PASSKIT_APPLE_TEAM_IDENTIFIER")
-      @pass_type_identifier = ENV["PASSKIT_PASS_TYPE_IDENTIFIER"] || (raise "Please set PASSKIT_PASS_TYPE_IDENTIFIER")
+      raise "Please set PASSKIT_CERTIFICATE_KEY" unless certificate_key
+      raise "Please set PASSKIT_PRIVATE_P12_CERTIFICATE" unless private_p12_certificate
+      raise "Please set PASSKIT_APPLE_INTERMEDIATE_CERTIFICATE" unless apple_intermediate_certificate
+      raise "Please set PASSKIT_APPLE_TEAM_IDENTIFIER" unless apple_team_identifier
+      raise "Please set PASSKIT_PASS_TYPE_IDENTIFIER" unless pass_type_identifier
     end
   end
 end
