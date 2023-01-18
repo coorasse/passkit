@@ -89,13 +89,19 @@ module Passkit
 
     # :nocov:
     def sign_manifest
-      p12_certificate = OpenSSL::PKCS12.new(File.read(Rails.root.join(Passkit.configuration.private_p12_certificate)), Passkit.configuration.certificate_key)
-      intermediate_certificate = OpenSSL::X509::Certificate.new(File.read(Rails.root.join(Passkit.configuration.apple_intermediate_certificate)))
+      intermediate_certificate = OpenSSL::X509::Certificate.new(File.read(Rails.root.join(Passkit.configuration.wwdc_cert)))
+
+      if Passkit.configuration.p12_key
+        key = OpenSSL::PKey::RSA.new(Passkit.configuration.p12_key, Passkit.configuration.p12_password)
+        cert = OpenSSL::X509::Certificate.new(Passkit.configuration.p12_certificate)
+      else
+        p12_certificate = OpenSSL::PKCS12.new(File.read(Rails.root.join(Passkit.configuration.p12_certificate)), Passkit.configuration.p12_password)
+        key = p12_certificate.key
+        cert = p12_certificate.certificate
+      end
 
       flag = OpenSSL::PKCS7::DETACHED | OpenSSL::PKCS7::BINARY
-      signed = OpenSSL::PKCS7.sign(p12_certificate.certificate,
-        p12_certificate.key, File.read(@manifest_url),
-        [intermediate_certificate], flag)
+      signed = OpenSSL::PKCS7.sign(cert, key, File.read(@manifest_url), [intermediate_certificate], flag)
 
       @signature_url = @temporary_path.join("signature")
       File.open(@signature_url, "w") { |f| f.syswrite signed.to_der }
