@@ -14,6 +14,7 @@ module Passkit
       :apple_team_identifier,
       :foreground_color,
       :background_color,
+      :label_color,
       :web_service_url,
       :barcode,
       :voided,

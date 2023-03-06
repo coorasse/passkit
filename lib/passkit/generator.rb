@@ -55,7 +55,8 @@ module Passkit
         organizationName: @pass.organization_name,
         description: @pass.description,
         logoText: @pass.logo_text,
-        locations: @pass.locations
+        locations: @pass.locations,
+        labelColor: @pass.label_color
       }
 
       pass = pass.merge({
