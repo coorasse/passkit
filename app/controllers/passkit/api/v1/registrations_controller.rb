@@ -81,7 +81,7 @@ module Passkit
           passes = @device.passes
 
           if params[:passesUpdatedSince]&.present?
-            passes.all.filter { |a| a.generator.updated_at >= Date.parse(params[:passesUpdatedSince]) }
+            passes.all.filter { |a| a.last_update >= Date.parse(params[:passesUpdatedSince]) }
           else
             passes
           end
