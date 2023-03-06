@@ -1,3 +1,9 @@
+## [0.5.0]
+
+- Allow configuring labelColor
+- Allow receiving the same push otken with different device identifiers
+- Make the last_update more flexible
+
 ## [0.4.2]
 
 - Fix the unregister endpoint.
