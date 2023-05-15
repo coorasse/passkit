@@ -1,3 +1,9 @@
+## [0.5.1]
+
+- [#13](https://github.com/coorasse/passkit/pull/13): Added sharingProhibited 
+- [#13](https://github.com/coorasse/passkit/pull/13): Added maxDistance
+- [#13](https://github.com/coorasse/passkit/pull/13): Allow custom files with add_other_files
+
 ## [0.5.0]
 
 - Allow configuring labelColor
