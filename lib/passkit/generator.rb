@@ -13,6 +13,7 @@ module Passkit
       check_necessary_files
       create_temporary_directory
       copy_pass_to_tmp_location
+      @pass.instance.add_other_files(@temporary_path)
       clean_ds_store_files
       I18n.with_locale(@pass.language) do
         generate_json_pass
@@ -56,14 +57,14 @@ module Passkit
         description: @pass.description,
         logoText: @pass.logo_text,
         locations: @pass.locations,
-        labelColor: @pass.label_color
-      }
-
-      pass = pass.merge({
+        labelColor: @pass.label_color,
+        sharingProhibited: @pass.sharing_prohibited,
         serialNumber: @pass.serial_number,
         passTypeIdentifier: @pass.pass_type_identifier,
         authenticationToken: @pass.authentication_token
-      })
+      }
+
+      pass[:maxDistance] = @pass.max_distance if @pass.max_distance
 
       pass[@pass.pass_type] = {
         headerFields: @pass.header_fields,

@@ -75,6 +75,14 @@ module Passkit
       false
     end
 
+    # After base files are copied this is called to allow for adding custom images
+    def add_other_files(path)
+    end
+
+    # Distance in meters from locations; if blank uses pass default
+    def max_distance
+    end
+
     def file_name
       @file_name ||= SecureRandom.uuid
     end
@@ -117,6 +125,10 @@ module Passkit
 
     def back_fields
       []
+    end
+
+    def sharing_prohibited
+      false
     end
 
     private

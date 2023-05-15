@@ -29,6 +29,8 @@ module Passkit
       :secondary_fields,
       :auxiliary_fields,
       :back_fields,
+      :sharing_prohibited,
+      :max_distance,
       to: :instance
 
     before_validation on: :create do
