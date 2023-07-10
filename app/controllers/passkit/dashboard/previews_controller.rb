@@ -6,7 +6,9 @@ module Passkit
 
       def show
         builder = Passkit.configuration.available_passes[params[:class_name]]
-        send_file Factory.create_pass(params[:class_name].constantize, builder.call)
+        path = Factory.create_pass(params[:class_name].constantize, builder.call)
+
+        send_file path, type: 'application/vnd.apple.pkpass', disposition: 'attachment', filename: 'pass.pkpass'
       end
     end
   end
