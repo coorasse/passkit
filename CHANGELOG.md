@@ -1,3 +1,7 @@
+## [0.5.2]
+
+- [#14](https://github.com/coorasse/passkit/pull/14): Send correct headers with previews so it auto-adds on iOS
+
 ## [0.5.1]
 
 - [#13](https://github.com/coorasse/passkit/pull/13): Added sharingProhibited 
