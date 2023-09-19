@@ -5,7 +5,7 @@ module Passkit
         before_action :decrypt_payload, only: :create
 
         def create
-          send_file(fetch_pass(@payload))
+          send_file(fetch_pass(@payload), type: 'application/vnd.apple.pkpass', disposition: 'attachment')
         end
 
         # @return If request is authorized, returns HTTP status 200 with a payload of the pass data.
@@ -29,7 +29,7 @@ module Passkit
           response.headers["last-modified"] = pass.last_update.strftime("%Y-%m-%d %H:%M:%S")
           if request.headers["If-Modified-Since"].nil? ||
               (pass.last_update.to_i > Time.zone.parse(request.headers["If-Modified-Since"]).to_i)
-            send_file(pass_output_path)
+            send_file(pass_output_path, type: 'application/vnd.apple.pkpass', disposition: 'attachment')
           else
             head :not_modified
           end
