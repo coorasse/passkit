@@ -1,3 +1,8 @@
+## [0.5.3]
+
+- [#15](https://github.com/coorasse/passkit/pull/15): Send correct headers also on passes_controller
+
+
 ## [0.5.2]
 
 - [#14](https://github.com/coorasse/passkit/pull/14): Send correct headers with previews so it auto-adds on iOS
