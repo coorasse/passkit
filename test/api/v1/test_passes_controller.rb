@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+
 class TestPassesController < ActionDispatch::IntegrationTest
   include Passkit::Engine.routes.url_helpers
 
@@ -33,6 +34,7 @@ class TestPassesController < ActionDispatch::IntegrationTest
       headers: {"Authorization" => "ApplePass #{pass.authentication_token}", "If-Modified-Since" => Time.zone.now.httpdate}
 
     assert_equal "", response.body
+    assert_equal pass.last_update.httpdate, response.headers["Last-Modified"]
     assert_response :not_modified
   end
 end

@@ -1,3 +1,7 @@
+## [0.5.4]
+
+- Fix last-modified header format. Return it in RFC 2616 format.
+
 ## [0.5.3]
 
 - [#15](https://github.com/coorasse/passkit/pull/15): Send correct headers also on passes_controller
