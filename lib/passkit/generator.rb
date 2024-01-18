@@ -46,11 +46,9 @@ module Passkit
 
     def generate_json_pass
       pass = {
-        appLaunchURL: @pass.app_launch_url,
         authenticationToken: @pass.authentication_token,
         backgroundColor: @pass.background_color,
         description: @pass.description,
-        expirationDate: @pass.expiration_date,
         foregroundColor: @pass.foreground_color,
         formatVersion: @pass.format_version,
         groupingIdentifier: @pass.grouping_identifier,
@@ -59,7 +57,6 @@ module Passkit
         logoText: @pass.logo_text,
         organizationName: @pass.organization_name,
         passTypeIdentifier: @pass.pass_type_identifier,
-        relevantDate: @pass.relevant_date,
         serialNumber: @pass.serial_number,
         sharingProhibited: @pass.sharing_prohibited,
         suppressStripShine: @pass.suppress_strip_shine,
@@ -80,13 +77,16 @@ module Passkit
         pass[:barcodes] = @pass.barcodes
       end
 
+      pass[:appLaunchURL] = @pass.app_launch_url if @pass.app_launch_url
       pass[:associatedStoreIdentifiers] = @pass.associated_store_identifiers unless @pass.associated_store_identifiers.empty?
       pass[:beacons] = @pass.beacons unless @pass.beacons.empty?
       pass[:boardingPass] = @pass.boarding_pass if @pass.boarding_pass
       pass[:coupon] = @pass.coupon if @pass.coupon
       pass[:eventTicket] = @pass.event_ticket if @pass.event_ticket
+      pass[:expirationDate] = @pass.expiration_date if @pass.expiration_date
       pass[:generic] = @pass.generic if @pass.generic
       pass[:nfc] = @pass.nfc if @pass.nfc
+      pass[:relevantDate] = @pass.relevant_date if @pass.relevant_date
       pass[:semantics] = @pass.semantics if @pass.semantics
       pass[:store_card] = @pass.store_card if @pass.store_card
       pass[:userInfo] = @pass.user_info if @pass.user_info
