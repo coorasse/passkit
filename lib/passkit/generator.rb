@@ -46,12 +46,12 @@ module Passkit
 
     def generate_json_pass
       pass = {
+        formatVersion: @pass.format_version,
+        teamIdentifier: @pass.apple_team_identifier,
         authenticationToken: @pass.authentication_token,
         backgroundColor: @pass.background_color,
         description: @pass.description,
         foregroundColor: @pass.foreground_color,
-        formatVersion: @pass.format_version,
-        groupingIdentifier: @pass.grouping_identifier,
         labelColor: @pass.label_color,
         locations: @pass.locations,
         logoText: @pass.logo_text,
@@ -60,9 +60,8 @@ module Passkit
         serialNumber: @pass.serial_number,
         sharingProhibited: @pass.sharing_prohibited,
         suppressStripShine: @pass.suppress_strip_shine,
-        teamIdentifier: @pass.apple_team_identifier,
         voided: @pass.voided,
-        webServiceURL: @pass.web_service_url,
+        webServiceURL: @pass.web_service_url
       }
 
       pass[:maxDistance] = @pass.max_distance if @pass.max_distance
@@ -85,6 +84,7 @@ module Passkit
       pass[:eventTicket] = @pass.event_ticket if @pass.event_ticket
       pass[:expirationDate] = @pass.expiration_date if @pass.expiration_date
       pass[:generic] = @pass.generic if @pass.generic
+      pass[:groupingIdentifier] = @pass.grouping_identifier if @pass.grouping_identifier
       pass[:nfc] = @pass.nfc if @pass.nfc
       pass[:relevantDate] = @pass.relevant_date if @pass.relevant_date
       pass[:semantics] = @pass.semantics if @pass.semantics
