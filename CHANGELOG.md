@@ -1,3 +1,7 @@
+## [0.6.0]
+
+- [#20](https://github.com/coorasse/passkit/pull/20): Many new attributes added.
+
 ## [0.5.4]
 
 - Fix last-modified header format. Return it in RFC 2616 format.
