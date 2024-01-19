@@ -23,7 +23,7 @@ module Passkit
       compress_pass_file
     end
 
-    private
+  private
 
     def check_necessary_files
       raise "icon.png is not present in #{@pass.pass_path}" unless File.exist?(File.join(@pass.pass_path, "icon.png"))
@@ -48,23 +48,48 @@ module Passkit
       pass = {
         formatVersion: @pass.format_version,
         teamIdentifier: @pass.apple_team_identifier,
-        foregroundColor: @pass.foreground_color,
+        authenticationToken: @pass.authentication_token,
         backgroundColor: @pass.background_color,
-        webServiceURL: @pass.web_service_url,
-        barcode: @pass.barcode,
-        voided: @pass.voided,
-        organizationName: @pass.organization_name,
         description: @pass.description,
-        logoText: @pass.logo_text,
-        locations: @pass.locations,
+        foregroundColor: @pass.foreground_color,
         labelColor: @pass.label_color,
-        sharingProhibited: @pass.sharing_prohibited,
-        serialNumber: @pass.serial_number,
+        locations: @pass.locations,
+        logoText: @pass.logo_text,
+        organizationName: @pass.organization_name,
         passTypeIdentifier: @pass.pass_type_identifier,
-        authenticationToken: @pass.authentication_token
+        serialNumber: @pass.serial_number,
+        sharingProhibited: @pass.sharing_prohibited,
+        suppressStripShine: @pass.suppress_strip_shine,
+        voided: @pass.voided,
+        webServiceURL: @pass.web_service_url
       }
 
       pass[:maxDistance] = @pass.max_distance if @pass.max_distance
+
+      # If the newer barcodes attribute has been used, then
+      # include the list of barcodes, otherwise fall back to
+      # the original barcode attribute
+      barcodes = @pass.barcodes || []
+      if barcodes.empty?
+        pass[:barcode] = @pass.barcode
+      else
+        pass[:barcodes] = @pass.barcodes
+      end
+
+      pass[:appLaunchURL] = @pass.app_launch_url if @pass.app_launch_url
+      pass[:associatedStoreIdentifiers] = @pass.associated_store_identifiers unless @pass.associated_store_identifiers.empty?
+      pass[:beacons] = @pass.beacons unless @pass.beacons.empty?
+      pass[:boardingPass] = @pass.boarding_pass if @pass.boarding_pass
+      pass[:coupon] = @pass.coupon if @pass.coupon
+      pass[:eventTicket] = @pass.event_ticket if @pass.event_ticket
+      pass[:expirationDate] = @pass.expiration_date if @pass.expiration_date
+      pass[:generic] = @pass.generic if @pass.generic
+      pass[:groupingIdentifier] = @pass.grouping_identifier if @pass.grouping_identifier
+      pass[:nfc] = @pass.nfc if @pass.nfc
+      pass[:relevantDate] = @pass.relevant_date if @pass.relevant_date
+      pass[:semantics] = @pass.semantics if @pass.semantics
+      pass[:store_card] = @pass.store_card if @pass.store_card
+      pass[:userInfo] = @pass.user_info if @pass.user_info
 
       pass[@pass.pass_type] = {
         headerFields: @pass.header_fields,
