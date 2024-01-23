@@ -8,7 +8,7 @@ class LogsDashboardTest < ActionDispatch::SystemTestCase
   end
 
   def authorize
-    visit "http://#{ENV["PASSKIT_DASHBOARD_USERNAME"]}:#{ENV["PASSKIT_DASHBOARD_PASSWORD"]}@#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}/passkit/dashboard/logs"
+    visit "http://#{Passkit.configuration.dashboard_username}:#{Passkit.configuration.dashboard_password}@#{Capybara.current_session.server.host}:#{Capybara.current_session.server.port}/passkit/dashboard/logs"
   end
 
   test "visiting the logs dashboard" do
