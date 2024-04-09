@@ -12,7 +12,7 @@ In production, it will simply be your domain name, but in development you can us
 
 This is the easy one.
 Head to https://www.apple.com/certificateauthority/ and download the latest Apple Intermediate Certificate Worldwide Developer Relations.
-You might want to choose the one with the longest expiration date.
+You might want to choose the one with the longest expiration date. PASSKIT_APPLE_INTERMEDIATE_CERTIFICATE is the path to the certificate.
 
 ### `PASSKIT_APPLE_TEAM_IDENTIFIER`
 
@@ -32,7 +32,7 @@ Head to your Apple Developers console and generate a new certificate.
 
 The identifier is the `PASSKIT_PASS_TYPE_IDENTIFIER` variable.
 
-Now, create a certificate signing request: https://help.apple.com/developer-account/#/devbfa00fef7
+Now, create a certificate signing request: https://developer.apple.com/help/account/create-certificates/create-a-certificate-signing-request/
 
 And create the certificate:
 

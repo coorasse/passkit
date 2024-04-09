@@ -47,30 +47,40 @@ module Passkit
       "#{ENV["PASSKIT_WEB_SERVICE_HOST"]}/passkit/api"
     end
 
+    # The foreground color, used for the values of fields shown on the front of the pass.
     def foreground_color
       # black
       "rgb(0, 0, 0)"
     end
 
+    # The background color, used for the background of the front and back of the pass.
+    # If you provide a background image, any background color is ignored.
     def background_color
       # white
       "rgb(255, 255, 255)"
     end
 
+    # The label color, used for the labels of fields shown on the front of the pass.
     def label_color
       # black
       "rgb(0, 0, 0)"
     end
 
+    # The organization name is displayed on the lock screen when your pass is relevant and by apps such as Mail which
+    # act as a conduit for passes. The value for the organizationName key in the pass specifies the organization name.
+    # Choose a name that users recognize and associate with your organization or company.
     def organization_name
       "Passkit"
     end
 
+    # The description lets VoiceOver make your pass accessible to blind and low-vision users. The value for the
+    # description key in the pass specifies the description.
+    # @see https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
     def description
       "A basic description for a pass"
     end
 
-    # A pass can have up to ten relevant locations
+    # An array of up to 10 latitudes and longitudes. iOS uses these locations to determine when to display the pass on the lock screen
     #
     # @see https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
     def locations
@@ -133,7 +143,7 @@ module Passkit
 
     # Date and time the pass expires, must include
     # days, hours and minutes (seconds are optional)
-    # Returns a String representing the date and time in W3C format
+    # Returns a String representing the date and time in W3C format ("%Y-%m-%dT%H:%M:%S%z")
     def expiration_date
     end
 
@@ -157,7 +167,7 @@ module Passkit
     # Date and time when the pass becomes relevant and should be
     # displayed, must include days, hours and minutes
     # (seconds are optional)
-    # Returns a String representing the date and time in W3C format
+    # Returns a String representing the date and time in W3C format ("%Y-%m-%dT%H:%M:%S%z")
     def relevant_date
     end
 

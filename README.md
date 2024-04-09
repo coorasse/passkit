@@ -128,9 +128,14 @@ You can define colors, fields and texts. You can also define the logo and the ba
 You should place the images in a 'private/passkit/<your_downcased_passname>' folder.
 There is a [dummy app in the gem](test/dummy) that you can use to check how to create your own Wallet Passes.
 
+Full documentation for image specifications is on Apple's
+[Pass Design and Creation](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html)
+page. Naming the file according to convetion and putting it in 'private/passkit/<your_downcased_passname>' is all that's needed for it
+to be included in the pass.
+
 ### Serve your Wallet Pass
 
-Use the [Passkit::UrlGenerator](lib/passkit/url_generator.rb) to generate the URL to serve your Wallet Pass. 
+Use the [Passkit::UrlGenerator](lib/passkit/url_generator.rb) to generate the URL to serve your Wallet Pass.
 You can initialize it with:
 
 ```ruby
