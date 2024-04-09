@@ -77,7 +77,7 @@ module Passkit
       "A basic description for a pass"
     end
 
-    # An array of up to 10 latitudes and longitudes.  iOS uses these locations to determine when to display the pass on the lock screen
+    # An array of up to 10 latitudes and longitudes. iOS uses these locations to determine when to display the pass on the lock screen
     #
     # @see https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
     def locations
