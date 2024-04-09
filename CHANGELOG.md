@@ -1,3 +1,6 @@
+## [0.7.0]
+- [#25](https://github.com/coorasse/passkit/pull/25): Change the label default color to black.
+
 ## [0.6.1]
 
 - [#21](https://github.com/coorasse/passkit/pull/21): Support an ecryption key via `PASSKIT_URL_ENCRYPTION_KEY` environment variable.
