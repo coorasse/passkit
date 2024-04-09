@@ -48,15 +48,18 @@ module Passkit
     end
 
     def foreground_color
+      # black
       "rgb(0, 0, 0)"
     end
 
     def background_color
+      # white
       "rgb(255, 255, 255)"
     end
 
     def label_color
-      "rgb(255, 255, 255)"
+      # black
+      "rgb(0, 0, 0)"
     end
 
     def organization_name
