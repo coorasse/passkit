@@ -18,6 +18,18 @@ class TestPassesController < ActionDispatch::IntegrationTest
     assert_equal 7, zip_file.size
   end
 
+  def test_create_collection
+    payload = Passkit::PayloadGenerator.encrypted(Passkit::UserTicket, User.find(1), :tickets)
+    get passes_api_path(payload)
+    assert_response :success
+    assert_equal 2, Passkit::Pass.count
+    unzipped_passes = Zip::File.open_buffer(StringIO.new(response.body))
+    assert_equal 2, unzipped_passes.size # the main zip file contains two passes
+    unzipped_pass =  Zip::File.open_buffer(unzipped_passes.first.zipfile)
+    assert_includes unzipped_passes.first.name, '.pkpass'
+
+  end
+
   def test_show
     _pkpass = Passkit::Factory.create_pass(Passkit::ExampleStoreCard)
     assert_equal 1, Passkit::Pass.count

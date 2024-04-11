@@ -23,6 +23,19 @@ module Passkit
       compress_pass_file
     end
 
+    def self.compress_passes_files(files)
+      zip_path = TMP_FOLDER.join("#{SecureRandom.uuid}.pkpasses")
+      zipped_file = File.open(zip_path, "w")
+
+      Zip::OutputStream.open(zipped_file.path) do |z|
+        files.each do |file|
+          z.put_next_entry(File.basename(file))
+          z.print File.read(file)
+        end
+      end
+      zip_path
+    end
+
   private
 
     def check_necessary_files

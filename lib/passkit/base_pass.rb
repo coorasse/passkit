@@ -95,7 +95,8 @@ module Passkit
     def add_other_files(path)
     end
 
-    # Distance in meters from locations; if blank uses pass default
+    # Distance in meters from locations; if blank uses pass default.
+    # The system uses the smaller of either this distance or the default distance.
     def max_distance
     end
 
