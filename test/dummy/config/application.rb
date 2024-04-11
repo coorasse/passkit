@@ -21,5 +21,7 @@ module Dummy
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.hosts << URI.parse(ENV.fetch("PASSKIT_WEB_SERVICE_HOST")).host
   end
 end
