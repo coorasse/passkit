@@ -143,7 +143,8 @@ module Passkit
 
     # Date and time the pass expires, must include
     # days, hours and minutes (seconds are optional)
-    # Returns a String representing the date and time in W3C format ("%Y-%m-%dT%H:%M:%S%z")
+    # Returns a String representing the date and time in W3C format ('%Y-%m-%dT%H:%M:%S%:z')
+    # For example, 1980-05-07T10:30-05:00.
     def expiration_date
     end
 
@@ -167,7 +168,7 @@ module Passkit
     # Date and time when the pass becomes relevant and should be
     # displayed, must include days, hours and minutes
     # (seconds are optional)
-    # Returns a String representing the date and time in W3C format ("%Y-%m-%dT%H:%M:%S%z")
+    # Returns a String representing the date and time in W3C format ('%Y-%m-%dT%H:%M:%S%:z')
     def relevant_date
     end
 

@@ -148,7 +148,7 @@ Again, check the example mailer included in the gem to see how to use it.
 ## Debug issues 
 
 * On Mac, open the `Console.app` to view the errors.
-* Check the logs on http://localhost:3000/passkit/logs
+* Check the logs on http://localhost:3000/passkit/dashboard/logs
 * In case of error "The passTypeIdentifier or teamIdentifier provided may not match your certificate, 
 or the certificate trust chain could not be verified." the certificate (p12) might be expired.
 
