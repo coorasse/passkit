@@ -93,7 +93,7 @@ module Passkit
         backFields: @pass.back_fields
       }
 
-      pass[:boardingPass ].merge(@pass.boarding_pass) if @pass.pass_type == :boardingPass && @pass.boarding_pass
+      pass[:boardingPass].merge(@pass.boarding_pass) if @pass.pass_type == :boardingPass && @pass.boarding_pass
 
       File.write(@temporary_path.join("pass.json"), pass.to_json)
     end
