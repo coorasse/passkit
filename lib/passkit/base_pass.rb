@@ -128,17 +128,10 @@ module Passkit
 
     # Information specific to a boarding pass
     # Returns a hash representing Pass.BoardingPass
+    # https://developer.apple.com/documentation/walletpasses/pass/boardingpass
+    # i.e {transitType: 'PKTransitTypeGeneric'}
     def boarding_pass
-    end
-
-    # Information specific to a coupon
-    # Returns a hash representing Pass.Coupon
-    def coupon
-    end
-
-    # Information specific to an event ticket
-    # Returns a hash representing Pass.EventTicket
-    def event_ticket
+      {}
     end
 
     # Date and time the pass expires, must include
@@ -146,11 +139,6 @@ module Passkit
     # Returns a String representing the date and time in W3C format ('%Y-%m-%dT%H:%M:%S%:z')
     # For example, 1980-05-07T10:30-05:00.
     def expiration_date
-    end
-
-    # Information specific to a generic pass
-    # Returns a hash representing Pass.Generic
-    def generic
     end
 
     # A key to identify group multiple passes together
@@ -176,11 +164,6 @@ module Passkit
     # to suggest actions
     # Returns a hash representing SemanticTags
     def semantics
-    end
-
-    # Information specific to a store card
-    # Returns a hash representing Pass.StoreCard
-    def store_card
     end
 
     # Display the strip image without a shine effect
