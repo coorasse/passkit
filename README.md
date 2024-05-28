@@ -136,11 +136,18 @@ to be included in the pass.
 ### Serve your Wallet Pass
 
 Use the [Passkit::UrlGenerator](lib/passkit/url_generator.rb) to generate the URL to serve your Wallet Pass.
-You can initialize it with:
+For one pass, you can initialize it with:
 
 ```ruby
 Passkit::UrlGenerator.new(Passkit::MyPass, User.find(1))
 ```
+
+For one passes, you can initialize it with:
+
+```ruby
+Passkit::UrlGenerator.new(Passkit::UserTicket, User.find(1), :tickets)
+```
+(this presumes you have `User.find(1).tickets` would return the ticket records)
 
 and then use `.android` or `.ios` to get the URL to serve the Wallet Pass.
 Again, check the example mailer included in the gem to see how to use it.

@@ -1,0 +1,11 @@
+first_ticket:
+  name: FirstUser Ticket1
+  user_id: 1
+
+second_ticket:
+  name: FirstUser Ticket2
+  user_id: 1
+
+third_ticket:
+  name: SecondUser Ticket1
+  user_id: 2
