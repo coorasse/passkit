@@ -88,20 +88,14 @@ module Passkit
       else
         pass[:barcodes] = @pass.barcodes
       end
-
       pass[:appLaunchURL] = @pass.app_launch_url if @pass.app_launch_url
       pass[:associatedStoreIdentifiers] = @pass.associated_store_identifiers unless @pass.associated_store_identifiers.empty?
       pass[:beacons] = @pass.beacons unless @pass.beacons.empty?
-      pass[:boardingPass] = @pass.boarding_pass if @pass.boarding_pass
-      pass[:coupon] = @pass.coupon if @pass.coupon
-      pass[:eventTicket] = @pass.event_ticket if @pass.event_ticket
       pass[:expirationDate] = @pass.expiration_date if @pass.expiration_date
-      pass[:generic] = @pass.generic if @pass.generic
       pass[:groupingIdentifier] = @pass.grouping_identifier if @pass.grouping_identifier
       pass[:nfc] = @pass.nfc if @pass.nfc
       pass[:relevantDate] = @pass.relevant_date if @pass.relevant_date
       pass[:semantics] = @pass.semantics if @pass.semantics
-      pass[:store_card] = @pass.store_card if @pass.store_card
       pass[:userInfo] = @pass.user_info if @pass.user_info
 
       pass[@pass.pass_type] = {
@@ -111,6 +105,8 @@ module Passkit
         auxiliaryFields: @pass.auxiliary_fields,
         backFields: @pass.back_fields
       }
+
+      pass[:boardingPass].merge(@pass.boarding_pass) if @pass.pass_type == :boardingPass && @pass.boarding_pass
 
       File.write(@temporary_path.join("pass.json"), pass.to_json)
     end
