@@ -111,8 +111,6 @@ module Passkit
       File.write(@temporary_path.join("pass.json"), pass.to_json)
     end
 
-    # rubocop:enable Metrics/AbcSize
-
     def generate_json_manifest
       manifest = {}
       Dir.glob(@temporary_path.join("**")).each do |file|
@@ -123,14 +121,18 @@ module Passkit
       File.write(@manifest_url, manifest.to_json)
     end
 
-    CERTIFICATE = Rails.root.join(ENV["PASSKIT_PRIVATE_P12_CERTIFICATE"])
-    INTERMEDIATE_CERTIFICATE = Rails.root.join(ENV["PASSKIT_APPLE_INTERMEDIATE_CERTIFICATE"])
-    CERTIFICATE_PASSWORD = ENV["PASSKIT_CERTIFICATE_KEY"]
+    def certificate_path
+      Rails.root.join(Passkit.configuration.private_p12_certificate)
+    end
+
+    def intermediate_certificate_path
+      Rails.root.join(Passkit.configuration.apple_intermediate_certificate)
+    end
 
     # :nocov:
     def sign_manifest
-      p12_certificate = OpenSSL::PKCS12.new(File.read(CERTIFICATE), CERTIFICATE_PASSWORD)
-      intermediate_certificate = OpenSSL::X509::Certificate.new(File.read(INTERMEDIATE_CERTIFICATE))
+      p12_certificate = OpenSSL::PKCS12.new(File.read(certificate_path), Passkit.configuration.certificate_key)
+      intermediate_certificate = OpenSSL::X509::Certificate.new(File.read(intermediate_certificate_path))
 
       flag = OpenSSL::PKCS7::DETACHED | OpenSSL::PKCS7::BINARY
       signed = OpenSSL::PKCS7.sign(p12_certificate.certificate,
