@@ -5,15 +5,15 @@ module Passkit
     end
 
     def format_version
-      ENV["PASSKIT_FORMAT_VERSION"] || 1
+      Passkit.configuration.format_version
     end
 
     def apple_team_identifier
-      ENV["PASSKIT_APPLE_TEAM_IDENTIFIER"] || raise(Error.new("Missing environment variable: PASSKIT_APPLE_TEAM_IDENTIFIER"))
+      Passkit.configuration.apple_team_identifier
     end
 
     def pass_type_identifier
-      ENV["PASSKIT_PASS_TYPE_IDENTIFIER"] || raise(Error.new("Missing environment variable: PASSKIT_PASS_TYPE_IDENTIFIER"))
+      Passkit.configuration.pass_type_identifier
     end
 
     def language
@@ -43,8 +43,7 @@ module Passkit
     end
 
     def web_service_url
-      raise Error.new("Missing environment variable: PASSKIT_WEB_SERVICE_HOST") unless ENV["PASSKIT_WEB_SERVICE_HOST"]
-      "#{ENV["PASSKIT_WEB_SERVICE_HOST"]}/passkit/api"
+      "#{Passkit.configuration.web_service_host}/passkit/api"
     end
 
     # The foreground color, used for the values of fields shown on the front of the pass.
