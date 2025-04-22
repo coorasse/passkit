@@ -6,7 +6,7 @@ module Passkit
       # @see Apple: https://developer.apple.com/library/archive/documentation/PassKit/Reference/PassKit_WebService/WebService.html
       # @see Android: https://walletpasses.io/developer/
       class RegistrationsController < ActionController::API
-        before_action :load_pass, only: %i[create create_walletpass_for_android destroy]
+        before_action :load_pass, only: %i[create destroy]
         before_action :load_device, only: %i[show]
 
         # @return If the serial number is already registered for this device, returns HTTP status 200.
@@ -14,16 +14,6 @@ module Passkit
         # @return If the request is not authorized, returns HTTP status 401.
         # @return Otherwise, returns the appropriate standard HTTP status.
         def create
-          if @pass.devices.find_by(identifier: params[:device_id])
-            render json: {}, status: :ok
-            return
-          end
-
-          register_device
-          render json: {}, status: :created
-        end
-
-        def create_walletpass_for_android
           if @pass.devices.find_by(identifier: params[:device_id])
             render json: {}, status: :ok
             return
@@ -83,14 +73,8 @@ module Passkit
         end
 
         def register_device
-          puts 'register_device-------------------------'
-          puts '--------------push_token',push_token
-          puts '--------------push_service_url',push_service_url
-          puts '--------------params',params.inspect
-
           device = Passkit::Device.find_or_create_by!(identifier: params[:device_id])
           device.update(push_token: push_token, push_service_url: push_service_url)
-          puts '--------------device',device.inspect 
           
           @pass.registrations.create!(device: device)
         end
@@ -129,9 +113,6 @@ module Passkit
 
           request.body.rewind
           json_body = JSON.parse(request.body.read)
-          puts '--------------json_body',json_body 
-          puts '--------------push_service_url',json_body["pushServiceUrl"] 
-
           json_body["pushServiceUrl"]
         end
       end
