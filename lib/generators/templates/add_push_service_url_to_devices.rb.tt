@@ -1,4 +1,4 @@
-class AddPushServiceURLtoDevices < ActiveRecord::Migration[<%= ActiveRecord::Migration.current_version %>]
+class AddPushServiceURLToDevices < ActiveRecord::Migration[<%= ActiveRecord::Migration.current_version %>]
   def change
     add_column :passkit_devices, :push_service_url, :string  
   end
