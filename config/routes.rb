@@ -5,7 +5,7 @@ Passkit::Engine.routes.draw do
     scope :v1 do
       resources :devices, only: [] do
         post "registrations/:pass_type_id/:serial_number" => "api/v1/registrations#create", :as => :register
-        post "registrations_attido/:pass_type_id/:serial_number" => "api/v1/registrations#create_walletpass_for_android", :as => :register_for_android
+        post "registrations_attido/:pass_type_id/:serial_number" => "api/v1/registrations#create", :as => :register_for_android
         delete "registrations/:pass_type_id/:serial_number" => "api/v1/registrations#destroy", :as => :unregister
         get "registrations/:pass_type_id" => "api/v1/registrations#show", :as => :registrations
       end
