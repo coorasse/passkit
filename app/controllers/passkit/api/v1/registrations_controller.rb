@@ -14,6 +14,18 @@ module Passkit
         # @return If the request is not authorized, returns HTTP status 401.
         # @return Otherwise, returns the appropriate standard HTTP status.
         def create
+          puts 'create-------------------------'
+          if @pass.devices.find_by(identifier: params[:device_id])
+            render json: {}, status: :ok
+            return
+          end
+
+          register_device
+          render json: {}, status: :created
+        end
+
+        def create_walletpass_for_android
+          puts 'create_walletpass_for_android-------------------------'
           if @pass.devices.find_by(identifier: params[:device_id])
             render json: {}, status: :ok
             return
