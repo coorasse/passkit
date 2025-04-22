@@ -6,7 +6,7 @@ module Passkit
       # @see Apple: https://developer.apple.com/library/archive/documentation/PassKit/Reference/PassKit_WebService/WebService.html
       # @see Android: https://walletpasses.io/developer/
       class RegistrationsController < ActionController::API
-        before_action :load_pass, only: %i[create destroy]
+        before_action :load_pass, only: %i[create create_walletpass_for_android destroy]
         before_action :load_device, only: %i[show]
 
         # @return If the serial number is already registered for this device, returns HTTP status 200.
