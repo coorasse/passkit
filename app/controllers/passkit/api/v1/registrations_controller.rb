@@ -90,10 +90,10 @@ module Passkit
           puts '--------------push_service_url',push_service_url
           puts '--------------params',params.inspect
 
-          device = Passkit::Device.find_or_create_by!(identifier: params[:device_id]) { |d| 
-          d.push_token = push_token
-          d.push_service_url = push_service_url
-        }
+          device = Passkit::Device.find_or_create_by!(identifier: params[:device_id]).update(push_token: push_token, push_service_url: push_service_url)
+          device.update(push_token: push_token, push_service_url: push_service_url)
+          puts '--------------device',device.inspect 
+          
           @pass.registrations.create!(device: device)
         end
 
