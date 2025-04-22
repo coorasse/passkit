@@ -85,6 +85,11 @@ module Passkit
         end
 
         def register_device
+          puts 'register_device-------------------------'
+          puts '--------------push_token',push_token
+          puts '--------------push_service_url',push_service_url
+          puts '--------------params',params.inspect
+
           device = Passkit::Device.find_or_create_by!(identifier: params[:device_id]) { |d| 
           d.push_token = push_token
           d.push_service_url = push_service_url
