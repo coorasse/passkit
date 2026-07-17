@@ -60,7 +60,6 @@ module Passkit
 
     # The background color, used for the background of the front and back of the pass.
     # If you provide a background image, any background color is ignored.
-
     def background_color
       # white
       "rgb(255, 255, 255)"
