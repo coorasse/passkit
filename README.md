@@ -128,22 +128,34 @@ You can define colors, fields and texts. You can also define the logo and the ba
 You should place the images in a 'private/passkit/<your_downcased_passname>' folder.
 There is a [dummy app in the gem](test/dummy) that you can use to check how to create your own Wallet Passes.
 
+Full documentation for image specifications is on Apple's
+[Pass Design and Creation](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html)
+page. Naming the file according to convetion and putting it in 'private/passkit/<your_downcased_passname>' is all that's needed for it
+to be included in the pass.
+
 ### Serve your Wallet Pass
 
-Use the [Passkit::UrlGenerator](lib/passkit/url_generator.rb) to generate the URL to serve your Wallet Pass. 
-You can initialize it with:
+Use the [Passkit::UrlGenerator](lib/passkit/url_generator.rb) to generate the URL to serve your Wallet Pass.
+For one pass, you can initialize it with:
 
 ```ruby
 Passkit::UrlGenerator.new(Passkit::MyPass, User.find(1))
 ```
+
+For one passes, you can initialize it with:
+
+```ruby
+Passkit::UrlGenerator.new(Passkit::UserTicket, User.find(1), :tickets)
+```
+(this presumes you have `User.find(1).tickets` would return the ticket records)
 
 and then use `.android` or `.ios` to get the URL to serve the Wallet Pass.
 Again, check the example mailer included in the gem to see how to use it.
 
 ## Debug issues 
 
-* On Mac, open the `Console.app` to view the errors.
-* Check the logs on http://localhost:3000/passkit/logs
+* On Mac, you can open the *.pkpass files with "Pass Viewer". Open the `Console.app` to log possible error messages and filter by "Pass Viewer" process.
+* Check the logs on http://localhost:3000/passkit/dashboard/logs
 * In case of error "The passTypeIdentifier or teamIdentifier provided may not match your certificate, 
 or the certificate trust chain could not be verified." the certificate (p12) might be expired.
 

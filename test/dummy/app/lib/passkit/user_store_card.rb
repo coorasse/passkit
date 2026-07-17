@@ -1,16 +1,7 @@
 module Passkit
-  class ExampleStoreCard < BasePass
+  class UserStoreCard < BasePass
     def pass_type
       :storeCard
-      # :coupon
-    end
-
-    def foreground_color
-      "rgb(0, 0, 0)"
-    end
-
-    def background_color
-      "rgb(255, 255, 255)"
     end
 
     def organization_name
@@ -25,11 +16,10 @@ module Passkit
     #
     # @see https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
     def locations
-      []
-    end
-
-    def voided
-      false
+      [
+        { latitude: 41.2273414693647, longitude: -95.92925748878405 }, # North Entrance
+        { latitude: 41.22476226066285, longitude: -95.92879374051269 } # Main Entrance
+      ]
     end
 
     def file_name
@@ -58,13 +48,9 @@ module Passkit
       "Loyalty Card"
     end
 
-    def relevant_date
-      Time.current.strftime('%Y-%m-%dT%H:%M:%S%:z')
-    end
-
     def expiration_date
       # Expire the pass tomorrow
-      (Time.current + 1.day).strftime('%Y-%m-%dT%H:%M:%S%:z')
+      (Time.current + 60*60*24).strftime('%Y-%m-%dT%H:%M:%S%:z')
     end
 
     def semantics
@@ -107,7 +93,7 @@ module Passkit
       [{
         key: "name",
         label: "Name",
-        value: "Alessandro Rodi"
+        value: @generator.name
       },
         {
           key: "email",

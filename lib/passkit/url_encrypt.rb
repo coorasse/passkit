@@ -21,7 +21,8 @@ module Passkit
       private
 
       def encryption_key
-        Rails.application.secret_key_base[0..15]
+        key = ENV.fetch("PASSKIT_URL_ENCRYPTION_KEY") { Rails.application.secret_key_base }
+        key[0..15]
       end
 
       def cypher

@@ -2,14 +2,14 @@
   Here is an example of an email message that contains a link to Download a Wallet Pass.
 </p>
 <p>
-  <a href="<%=@passkit_url_generator.ios %>">
-    <%=image_tag 'passkit/add_to_apple_wallet_en.png', style: 'width: 150px;' %>
-    Download a iOS Wallet Pass
+  <a href="<%= @passkit_url_generator.ios %>">
+    <%= image_tag 'passkit/add_to_apple_wallet_en.png', style: 'width: 150px;' %>
+    Download an iOS Wallet Pass
   </a>
 </p>
 <p>
   <a href="<%=@passkit_url_generator.android %>">
-    <%=image_tag 'https://walletpasses.io/badges/badge_web_black_en@3x.png', style: 'width: 150px;' %>
+    <%= image_tag 'passkit/add_to_walletpass_en.png', style: 'width: 150px;' %>
     Download an Android Wallet Pass
   </a>
 </p>

@@ -37,6 +37,9 @@ module Passkit
     def pass_type
       :storeCard
       # :coupon
+      # :eventTicket
+      # :generic
+      # :boardingPass
     end
 
     def web_service_url
@@ -44,31 +47,46 @@ module Passkit
       "#{ENV["PASSKIT_WEB_SERVICE_HOST"]}/passkit/api"
     end
 
+    # The foreground color, used for the values of fields shown on the front of the pass.
     def foreground_color
+      # black
       "rgb(0, 0, 0)"
     end
 
+    # The strip color, used to print the text over the backgrround image.
     def strip_color
       "rgb(0, 0, 0)"
     end
 
+    # The background color, used for the background of the front and back of the pass.
+    # If you provide a background image, any background color is ignored.
+
     def background_color
+      # white
       "rgb(255, 255, 255)"
     end
 
+    # The label color, used for the labels of fields shown on the front of the pass.
     def label_color
-      "rgb(255, 255, 255)"
+      # black
+      "rgb(0, 0, 0)"
     end
 
+    # The organization name is displayed on the lock screen when your pass is relevant and by apps such as Mail which
+    # act as a conduit for passes. The value for the organizationName key in the pass specifies the organization name.
+    # Choose a name that users recognize and associate with your organization or company.
     def organization_name
       "Passkit"
     end
 
+    # The description lets VoiceOver make your pass accessible to blind and low-vision users. The value for the
+    # description key in the pass specifies the description.
+    # @see https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
     def description
       "A basic description for a pass"
     end
 
-    # A pass can have up to ten relevant locations
+    # An array of up to 10 latitudes and longitudes. iOS uses these locations to determine when to display the pass on the lock screen
     #
     # @see https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
     def locations
@@ -83,8 +101,88 @@ module Passkit
     def add_other_files(path)
     end
 
-    # Distance in meters from locations; if blank uses pass default
+    # Distance in meters from locations; if blank uses pass default.
+    # The system uses the smaller of either this distance or the default distance.
     def max_distance
+    end
+
+    # URL to launch the associated app (nil by default)
+    # Returns a String
+    def app_launch_url
+    end
+
+    # A list of Apple App Store identifiers for apps associated
+    # with the pass. The first one that is compatible with the
+    # device is picked.
+    # Returns an array of numbers
+    def associated_store_identifiers
+      []
+    end
+
+    # An array of barcodes, the first one that can
+    # be displayed on the device is picked.
+    # Returns an array of hashes representing Pass.Barcodes
+    def barcodes
+      []
+    end
+
+    # List of iBeacon identifiers to identify when the
+    # pass should be displayed.
+    # Returns an array of hashes representing Pass.Beacons
+    def beacons
+      []
+    end
+
+    # Information specific to a boarding pass
+    # Returns a hash representing Pass.BoardingPass
+    # https://developer.apple.com/documentation/walletpasses/pass/boardingpass
+    # i.e {transitType: 'PKTransitTypeGeneric'}
+    def boarding_pass
+      {}
+    end
+
+    # Date and time the pass expires, must include
+    # days, hours and minutes (seconds are optional)
+    # Returns a String representing the date and time in W3C format ('%Y-%m-%dT%H:%M:%S%:z')
+    # For example, 1980-05-07T10:30-05:00.
+    def expiration_date
+    end
+
+    # A key to identify group multiple passes together
+    # (e.g. a number of boarding passes for the same trip)
+    # Returns a String
+    def grouping_identifier
+    end
+
+    # Information specific to Value Added Service Protocol
+    # transactions
+    # Returns a hash representing Pass.NFC
+    def nfc
+    end
+
+    # Date and time when the pass becomes relevant and should be
+    # displayed, must include days, hours and minutes
+    # (seconds are optional)
+    # Returns a String representing the date and time in W3C format ('%Y-%m-%dT%H:%M:%S%:z')
+    def relevant_date
+    end
+
+    # Machine readable metadata that the device can use
+    # to suggest actions
+    # Returns a hash representing SemanticTags
+    def semantics
+    end
+
+    # Display the strip image without a shine effect
+    # Returns a boolean
+    def suppress_strip_shine
+      true
+    end
+
+    # JSON dictionary to display custom information for
+    # companion apps. Data isn't displayed to the user. e.g.
+    # a machine readable version of the user's favourite coffee
+    def user_info
     end
 
     def file_name
@@ -93,10 +191,10 @@ module Passkit
 
     # QRCode by default
     def barcode
-      {messageEncoding: "iso-8859-1",
-       format: "PKBarcodeFormatQR",
-       message: "https://github.com/coorasse/passkit",
-       altText: "https://github.com/coorasse/passkit"}
+      { messageEncoding: "iso-8859-1",
+        format: "PKBarcodeFormatQR",
+        message: "https://github.com/coorasse/passkit",
+        altText: "https://github.com/coorasse/passkit" }
     end
 
     # Barcode example
@@ -135,7 +233,7 @@ module Passkit
       false
     end
 
-    private
+  private
 
     def folder_name
       self.class.name.demodulize.underscore

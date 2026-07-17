@@ -5,7 +5,18 @@ module Passkit
         before_action :decrypt_payload, only: :create
 
         def create
-          send_file(fetch_pass(@payload), type: "application/vnd.apple.pkpass", disposition: "attachment")
+          set_generator
+
+          if @generator && @payload[:collection_name].present?
+            files = @generator.public_send(@payload[:collection_name]).collect do |collection_item|
+              Passkit::Factory.create_pass(@payload[:pass_class], collection_item)
+            end
+            file = Passkit::Generator.compress_passes_files(files)
+            send_file(file, type: 'application/vnd.apple.pkpasses', disposition: 'attachment')
+          else
+            file = Passkit::Factory.create_pass(@payload[:pass_class], @generator)
+            send_file(file, type: 'application/vnd.apple.pkpass', disposition: 'attachment')
+          end
         end
 
         # @return If request is authorized, returns HTTP status 200 with a payload of the pass data.
@@ -44,13 +55,13 @@ module Passkit
           end
         end
 
-        def fetch_pass(payload)
-          generator = nil
-          if payload[:generator_class].present? && payload[:generator_id].present?
-            generator_class = payload[:generator_class].constantize
-            generator = generator_class.find(payload[:generator_id])
-          end
-          Passkit::Factory.create_pass(payload[:pass_class], generator)
+        def set_generator
+          @generator = nil
+
+          return unless @payload[:generator_class].present? && @payload[:generator_id].present?
+
+          generator_class = @payload[:generator_class].constantize
+          @generator = generator_class.find(@payload[:generator_id])
         end
       end
     end
