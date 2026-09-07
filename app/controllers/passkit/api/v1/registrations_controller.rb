@@ -73,7 +73,9 @@ module Passkit
         end
 
         def register_device
-          device = Passkit::Device.find_or_create_by!(identifier: params[:device_id]) { |d| d.push_token = push_token }
+          device = Passkit::Device.find_or_create_by!(identifier: params[:device_id])
+          device.update(push_token: push_token, push_service_url: push_service_url)
+          
           @pass.registrations.create!(device: device)
         end
 
@@ -104,6 +106,14 @@ module Passkit
           request.body.rewind
           json_body = JSON.parse(request.body.read)
           json_body["pushToken"]
+        end
+
+        def push_service_url
+          return unless request&.body
+
+          request.body.rewind
+          json_body = JSON.parse(request.body.read)
+          json_body["pushServiceUrl"]
         end
       end
     end
