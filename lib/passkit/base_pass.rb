@@ -52,6 +52,11 @@ module Passkit
       "rgb(0, 0, 0)"
     end
 
+    # The strip color, used to print the text over the background image.
+    def strip_color
+      "rgb(0, 0, 0)"
+    end
+
     # The background color, used for the background of the front and back of the pass.
     # If you provide a background image, any background color is ignored.
     def background_color

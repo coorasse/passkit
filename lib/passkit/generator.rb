@@ -72,6 +72,7 @@ module Passkit
         passTypeIdentifier: @pass.pass_type_identifier,
         serialNumber: @pass.serial_number,
         sharingProhibited: @pass.sharing_prohibited,
+        stripColor: @pass.strip_color,
         suppressStripShine: @pass.suppress_strip_shine,
         voided: @pass.voided,
         webServiceURL: @pass.web_service_url
