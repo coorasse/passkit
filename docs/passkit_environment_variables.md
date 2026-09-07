@@ -32,6 +32,9 @@ Head to your Apple Developers console and generate a new certificate.
 
 The identifier is the `PASSKIT_PASS_TYPE_IDENTIFIER` variable.
 
+**Note**: When renewing your certificate, make sure that this identifier stays the same as before. Changing this identifier will
+require existing passes to be regenerated, as they will otherwise no longer be updateable via the web service URL.
+
 Now, create a certificate signing request: https://developer.apple.com/help/account/create-certificates/create-a-certificate-signing-request/
 
 And create the certificate:
