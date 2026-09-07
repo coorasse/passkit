@@ -1,3 +1,6 @@
+## [0.8.0]
+- [#36](https://github.com/coorasse/passkit/pull/36): More flexible configuration parameters.
+
 ## [0.7.0]
 - [#25](https://github.com/coorasse/passkit/pull/25): Change the label default color to black.
 
