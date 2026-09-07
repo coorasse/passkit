@@ -36,7 +36,7 @@ module Passkit
       zip_path
     end
 
-  private
+    private
 
     def check_necessary_files
       raise "icon.png is not present in #{@pass.pass_path}" unless File.exist?(File.join(@pass.pass_path, "icon.png"))

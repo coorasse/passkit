@@ -1,0 +1,38 @@
+version: "v1.0"
+name: passkit
+agent:
+  machine:
+    type: f1-standard-2
+    os_image: ubuntu2204
+auto_cancel:
+  running:
+    when: "true"
+
+blocks:
+  - name: tests
+    execution_time_limit:
+      minutes: 10
+    task:
+      env_vars:
+        - name: RAILS_ENV
+          value: test
+        - name: BUNDLE_PATH
+          value: vendor/bundle
+      prologue:
+        commands:
+          - checkout --use-cache
+          - sem-version ruby 3.3
+          - cache restore gems-$(checksum passkit.gemspec)-$(checksum Gemfile)
+          - bundle install -j 4
+          - cache store gems-$(checksum passkit.gemspec)-$(checksum Gemfile) vendor/bundle
+          - bin/generate_test_certificates
+      jobs:
+        - name: linter
+          commands:
+            - bundle exec standardrb
+        - name: tests
+          commands:
+            - bundle exec rake test
+        - name: system tests
+          commands:
+            - bundle exec rake test:system

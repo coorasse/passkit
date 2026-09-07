@@ -9,6 +9,12 @@ Rake::TestTask.new(:test) do |t|
   t.test_files = FileList["test/**/test_*.rb"]
 end
 
+Rake::TestTask.new("test:system") do |t|
+  t.libs << "test"
+  t.libs << "lib"
+  t.test_files = FileList["test/system/**/*_test.rb"]
+end
+
 require "standard/rake"
 
 task default: %i[test standard]

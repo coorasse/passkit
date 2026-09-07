@@ -22,7 +22,7 @@ module Passkit
   end
 
   def self.configured?
-    self.configuration&.configured?
+    configuration&.configured?
   end
 
   class Configuration
@@ -68,7 +68,7 @@ module Passkit
       # Optional
       @skip_verification = false
       @web_service_host = ENV["PASSKIT_WEB_SERVICE_HOST"] || "https://localhost:3000"
-      @available_passes = { "Passkit::ExampleStoreCard" => -> {} }
+      @available_passes = {"Passkit::ExampleStoreCard" => -> {}}
       @format_version = ENV["PASSKIT_FORMAT_VERSION"] || 1
       @dashboard_username = ENV["PASSKIT_DASHBOARD_USERNAME"]
       @dashboard_password = ENV["PASSKIT_DASHBOARD_PASSWORD"]
