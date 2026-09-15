@@ -39,7 +39,7 @@ module Passkit
       :secondary_fields,
       :semantics,
       :sharing_prohibited,
-      :strip_color
+      :strip_color,
       :suppress_strip_shine,
       :user_info,
       :voided,
