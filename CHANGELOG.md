@@ -1,3 +1,6 @@
+## [0.8.1]
+- [#45](https://github.com/coorasse/passkit/pull/45): Fix broken build.
+
 ## [0.8.0]
 - [#36](https://github.com/coorasse/passkit/pull/36): More flexible configuration parameters.
 - [#44](https://github.com/coorasse/passkit/pull/44): Add `stripColor` option.
