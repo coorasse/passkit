@@ -18,4 +18,4 @@ blocks:
             - checkout
             - sem-version ruby 3.3
             - gem build passkit.gemspec
-            - gem push passkit-*.gem
+            - gem push passkit-*.gem < /dev/null
