@@ -1,3 +1,6 @@
+## [0.8.3]
+- Exclude development and test files from the packaged gem.
+
 ## [0.8.2]
 - Set up the Semaphore CI pipeline with a manual promotion to release the gem.
 - Self-signed certificates for the test suite, so it runs without an Apple Developer certificate.
