@@ -12,10 +12,10 @@ module Passkit
               Passkit::Factory.create_pass(@payload[:pass_class], collection_item)
             end
             file = Passkit::Generator.compress_passes_files(files)
-            send_file(file, type: 'application/vnd.apple.pkpasses', disposition: 'attachment')
+            send_file(file, type: "application/vnd.apple.pkpasses", disposition: "attachment")
           else
             file = Passkit::Factory.create_pass(@payload[:pass_class], @generator)
-            send_file(file, type: 'application/vnd.apple.pkpass', disposition: 'attachment')
+            send_file(file, type: "application/vnd.apple.pkpass", disposition: "attachment")
           end
         end
 

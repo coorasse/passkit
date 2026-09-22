@@ -39,10 +39,10 @@ module Passkit
     # QRCode by default
     def barcodes
       [
-        { messageEncoding: "iso-8859-1",
-          format: "PKBarcodeFormatQR",
-          message: "https://github.com/coorasse/passkit",
-          altText: "https://github.com/coorasse/passkit" }
+        {messageEncoding: "iso-8859-1",
+         format: "PKBarcodeFormatQR",
+         message: "https://github.com/coorasse/passkit",
+         altText: "https://github.com/coorasse/passkit"}
       ]
     end
 
@@ -59,12 +59,12 @@ module Passkit
     end
 
     def relevant_date
-      Time.current.strftime('%Y-%m-%dT%H:%M:%S%:z')
+      Time.current.strftime("%Y-%m-%dT%H:%M:%S%:z")
     end
 
     def expiration_date
       # Expire the pass tomorrow
-      (Time.current + 1.day).strftime('%Y-%m-%dT%H:%M:%S%:z')
+      (Time.current + 1.day).strftime("%Y-%m-%dT%H:%M:%S%:z")
     end
 
     def semantics
@@ -121,7 +121,7 @@ module Passkit
         }]
     end
 
-  private
+    private
 
     def folder_name
       self.class.name.demodulize.underscore

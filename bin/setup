@@ -5,4 +5,4 @@ set -vx
 
 bundle install
 
-# Do any other automated setup that you need to do here
+bin/generate_test_certificates

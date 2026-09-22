@@ -8,7 +8,8 @@
 
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
-require "dotenv/load"
+require "dotenv"
+Dotenv.load(File.expand_path("../.env", __dir__), File.expand_path("../.env.test", __dir__))
 require_relative "../test/dummy/config/environment"
 ActiveRecord::Migrator.migrations_paths = [File.expand_path("../test/dummy/db/migrate", __dir__)]
 ActiveRecord::Migrator.migrations_paths << File.expand_path("../db/migrate", __dir__)
@@ -21,5 +22,5 @@ Capybara.server = :webrick
 if ActiveSupport::TestCase.respond_to?(:fixture_path=)
   ActionDispatch::IntegrationTest.fixture_path = ActiveSupport::TestCase.fixture_path
   ActiveSupport::TestCase.file_fixture_path = ActiveSupport::TestCase.fixture_path + "/files"
-  ActiveSupport::TestCase.fixtures :all
 end
+ActiveSupport::TestCase.fixtures :all

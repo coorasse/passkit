@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Generates a self-signed pass certificate and a fake "Apple intermediate"
+# certificate, so that the test suite can sign passes without a real Apple
+# Developer certificate.
+
+require "openssl"
+require "fileutils"
+
+output_directory = File.expand_path("../test/dummy/certificates", __dir__)
+password = ENV.fetch("PASSKIT_CERTIFICATE_KEY", "passkit")
+
+FileUtils.mkdir_p(output_directory)
+
+intermediate_key = OpenSSL::PKey::RSA.new(2048)
+intermediate_certificate = OpenSSL::X509::Certificate.new
+intermediate_certificate.version = 2
+intermediate_certificate.serial = 1
+intermediate_certificate.subject = OpenSSL::X509::Name.parse("/CN=Passkit Test Intermediate CA")
+intermediate_certificate.issuer = intermediate_certificate.subject
+intermediate_certificate.public_key = intermediate_key.public_key
+intermediate_certificate.not_before = Time.now - 60
+intermediate_certificate.not_after = Time.now + (10 * 365 * 24 * 60 * 60)
+
+extension_factory = OpenSSL::X509::ExtensionFactory.new
+extension_factory.subject_certificate = intermediate_certificate
+extension_factory.issuer_certificate = intermediate_certificate
+intermediate_certificate.add_extension(extension_factory.create_extension("basicConstraints", "CA:TRUE", true))
+intermediate_certificate.add_extension(extension_factory.create_extension("keyUsage", "keyCertSign, cRLSign", true))
+intermediate_certificate.sign(intermediate_key, OpenSSL::Digest.new("SHA256"))
+
+pass_key = OpenSSL::PKey::RSA.new(2048)
+pass_certificate = OpenSSL::X509::Certificate.new
+pass_certificate.version = 2
+pass_certificate.serial = 2
+pass_certificate.subject = OpenSSL::X509::Name.parse("/CN=#{ENV.fetch("PASSKIT_PASS_TYPE_IDENTIFIER", "pass.com.example.pass")}")
+pass_certificate.issuer = intermediate_certificate.subject
+pass_certificate.public_key = pass_key.public_key
+pass_certificate.not_before = Time.now - 60
+pass_certificate.not_after = Time.now + (10 * 365 * 24 * 60 * 60)
+
+extension_factory = OpenSSL::X509::ExtensionFactory.new
+extension_factory.subject_certificate = pass_certificate
+extension_factory.issuer_certificate = intermediate_certificate
+pass_certificate.add_extension(extension_factory.create_extension("basicConstraints", "CA:FALSE", true))
+pass_certificate.add_extension(extension_factory.create_extension("keyUsage", "digitalSignature", true))
+pass_certificate.sign(intermediate_key, OpenSSL::Digest.new("SHA256"))
+
+p12 = OpenSSL::PKCS12.create(password, "Passkit Test Certificate", pass_key, pass_certificate)
+
+File.binwrite(File.join(output_directory, "intermediate.cer"), intermediate_certificate.to_der)
+File.binwrite(File.join(output_directory, "certificate.p12"), p12.to_der)
+
+puts "Certificates written to #{output_directory}"

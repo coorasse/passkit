@@ -1,0 +1,21 @@
+version: "v1.0"
+name: Release gem
+agent:
+  machine:
+    type: f1-standard-2
+    os_image: ubuntu2204
+
+blocks:
+  - name: publish
+    execution_time_limit:
+      minutes: 10
+    task:
+      secrets:
+        - name: rubygems
+      jobs:
+        - name: build and push to rubygems.org
+          commands:
+            - checkout
+            - sem-version ruby 3.3
+            - gem build passkit.gemspec
+            - gem push passkit-*.gem

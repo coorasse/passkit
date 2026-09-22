@@ -189,10 +189,10 @@ module Passkit
 
     # QRCode by default
     def barcode
-      { messageEncoding: "iso-8859-1",
-        format: "PKBarcodeFormatQR",
-        message: "https://github.com/coorasse/passkit",
-        altText: "https://github.com/coorasse/passkit" }
+      {messageEncoding: "iso-8859-1",
+       format: "PKBarcodeFormatQR",
+       message: "https://github.com/coorasse/passkit",
+       altText: "https://github.com/coorasse/passkit"}
     end
 
     # Barcode example
@@ -231,7 +231,7 @@ module Passkit
       false
     end
 
-  private
+    private
 
     def folder_name
       self.class.name.demodulize.underscore
