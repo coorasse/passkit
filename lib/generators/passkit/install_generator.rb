@@ -19,6 +19,7 @@ module Passkit
       desc "Copy all files to your application."
       def generate_files
         migration_template "create_passkit_tables.rb", "db/migrate/create_passkit_tables.rb"
+        migration_template "add_push_service_url_to_devices.rb", "db/migrate/add_push_service_url_to_devices.rb"
         copy_file "passkit.rb", "config/initializers/passkit.rb"
       end
     end
