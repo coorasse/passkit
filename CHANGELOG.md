@@ -1,5 +1,6 @@
 ## [Unreleased]
 - Remove the generator's working directory once the `.pkpass` is built, and delete generated archives after sending them, so `tmp/passkit` no longer grows with every download.
+- Answer `304 Not Modified` before generating and signing the pass when `If-Modified-Since` shows the device already has the current version.
 
 ## [0.8.3]
 - Exclude development and test files from the packaged gem.

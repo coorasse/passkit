@@ -43,7 +43,7 @@ class TestPassesController < ActionDispatch::IntegrationTest
 
     assert_response :success
 
-    assert_no_files_left_behind do
+    Passkit::Generator.stub(:new, ->(*) { flunk "an unchanged pass must not be generated again" }) do
       get pass_path(pass_type_id: ENV["PASSKIT_PASS_TYPE_IDENTIFIER"], serial_number: pass.serial_number),
         headers: {"Authorization" => "ApplePass #{pass.authentication_token}", "If-Modified-Since" => Time.zone.now.httpdate}
     end
@@ -51,6 +51,12 @@ class TestPassesController < ActionDispatch::IntegrationTest
     assert_equal "", response.body
     assert_equal pass.last_update.httpdate, response.headers["Last-Modified"]
     assert_response :not_modified
+
+    get pass_path(pass_type_id: ENV["PASSKIT_PASS_TYPE_IDENTIFIER"], serial_number: pass.serial_number),
+      headers: {"Authorization" => "ApplePass #{pass.authentication_token}", "If-Modified-Since" => 1.day.ago.httpdate}
+
+    assert_response :success
+    assert_equal 7, Zip::File.open_buffer(StringIO.new(response.body)).size
   end
 
   private

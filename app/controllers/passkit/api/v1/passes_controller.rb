@@ -41,19 +41,23 @@ module Passkit
             return
           end
 
-          pass_output_path = Passkit::Generator.new(pass).generate_and_sign
-
           response.headers["last-modified"] = pass.last_update.httpdate
-          if request.headers["If-Modified-Since"].nil? ||
-              (pass.last_update.to_i > Time.zone.parse(request.headers["If-Modified-Since"]).to_i)
-            send_pass_file(pass_output_path, type: "application/vnd.apple.pkpass")
-          else
-            FileUtils.rm_f(pass_output_path)
-            head :not_modified
-          end
+          return head :not_modified unless pass_modified_since?(pass, request.headers["If-Modified-Since"])
+
+          pass_output_path = Passkit::Generator.new(pass).generate_and_sign
+          send_pass_file(pass_output_path, type: "application/vnd.apple.pkpass")
         end
 
         private
+
+        # Wallet sends back the Last-Modified it received with the previous
+        # download. When the pass has not changed since, there is nothing to
+        # generate or sign.
+        def pass_modified_since?(pass, if_modified_since)
+          return true if if_modified_since.nil?
+
+          pass.last_update.to_i > Time.zone.parse(if_modified_since).to_i
+        end
 
         def decrypt_payload
           @payload = Passkit::UrlEncrypt.decrypt(params[:payload])
