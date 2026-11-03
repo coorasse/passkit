@@ -21,6 +21,8 @@ module Passkit
       generate_json_manifest
       sign_manifest
       compress_pass_file
+    ensure
+      remove_temporary_directory
     end
 
     def self.compress_passes_files(files)
@@ -47,6 +49,12 @@ module Passkit
       @temporary_path = TMP_FOLDER.join(@pass.file_name.to_s)
 
       FileUtils.rm_rf(@temporary_path) if File.directory?(@temporary_path)
+    end
+
+    # Only the .pkpass is returned to the caller; the unpacked files it was
+    # built from have no further use once it exists.
+    def remove_temporary_directory
+      FileUtils.rm_rf(@temporary_path) if @temporary_path
     end
 
     def copy_pass_to_tmp_location

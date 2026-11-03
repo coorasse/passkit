@@ -173,6 +173,11 @@ Passkit::UrlGenerator.new(Passkit::UserTicket, User.find(1), :tickets)
 and then use `.android` or `.ios` to get the URL to serve the Wallet Pass.
 Again, check the example mailer included in the gem to see how to use it.
 
+If you generate passes yourself with `Passkit::Factory.create_pass` or `Passkit::Generator#generate_and_sign`
+instead of going through the bundled controllers, note that the returned `.pkpass` lives in `tmp/passkit`.
+The bundled controllers delete it once it has been sent; if you serve it yourself, do the same, otherwise the
+folder grows by one archive per download.
+
 ## Debug issues 
 
 * On Mac, you can open the *.pkpass files with "Pass Viewer". Open the `Console.app` to log possible error messages and filter by "Pass Viewer" process.

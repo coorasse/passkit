@@ -2,6 +2,8 @@ module Passkit
   module Api
     module V1
       class PassesController < ActionController::API
+        include Passkit::PassDelivery
+
         before_action :decrypt_payload, only: :create
 
         def create
@@ -11,11 +13,15 @@ module Passkit
             files = @generator.public_send(@payload[:collection_name]).collect do |collection_item|
               Passkit::Factory.create_pass(@payload[:pass_class], collection_item)
             end
-            file = Passkit::Generator.compress_passes_files(files)
-            send_file(file, type: "application/vnd.apple.pkpasses", disposition: "attachment")
+            begin
+              bundle = Passkit::Generator.compress_passes_files(files)
+            ensure
+              files.each { |file| FileUtils.rm_f(file) }
+            end
+            send_pass_file(bundle, type: "application/vnd.apple.pkpasses")
           else
             file = Passkit::Factory.create_pass(@payload[:pass_class], @generator)
-            send_file(file, type: "application/vnd.apple.pkpass", disposition: "attachment")
+            send_pass_file(file, type: "application/vnd.apple.pkpass")
           end
         end
 
@@ -40,8 +46,9 @@ module Passkit
           response.headers["last-modified"] = pass.last_update.httpdate
           if request.headers["If-Modified-Since"].nil? ||
               (pass.last_update.to_i > Time.zone.parse(request.headers["If-Modified-Since"]).to_i)
-            send_file(pass_output_path, type: "application/vnd.apple.pkpass", disposition: "attachment")
+            send_pass_file(pass_output_path, type: "application/vnd.apple.pkpass")
           else
+            FileUtils.rm_f(pass_output_path)
             head :not_modified
           end
         end
