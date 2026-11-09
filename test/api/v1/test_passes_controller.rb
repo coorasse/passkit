@@ -25,8 +25,10 @@ class TestPassesController < ActionDispatch::IntegrationTest
     assert_equal 2, Passkit::Pass.count
     unzipped_passes = Zip::File.open_buffer(StringIO.new(response.body))
     assert_equal 2, unzipped_passes.size # the main zip file contains two passes
-    Zip::File.open_buffer(unzipped_passes.first.zipfile)
-    assert_includes unzipped_passes.first.name, ".pkpass"
+    first_pass = unzipped_passes.entries.first
+    assert_includes first_pass.name, ".pkpass"
+    pkpass = Zip::File.open_buffer(StringIO.new(first_pass.get_input_stream.read))
+    assert_includes pkpass.entries.map(&:name), "pass.json"
   end
 
   def test_show
