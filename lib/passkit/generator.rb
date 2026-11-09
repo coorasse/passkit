@@ -27,13 +27,9 @@ module Passkit
 
     def self.compress_passes_files(files)
       zip_path = TMP_FOLDER.join("#{SecureRandom.uuid}.pkpasses")
-      zipped_file = File.open(zip_path, "w")
 
-      Zip::OutputStream.open(zipped_file.path) do |z|
-        files.each do |file|
-          z.put_next_entry(File.basename(file))
-          z.print File.read(file)
-        end
+      Zip::File.open(zip_path, create: true) do |zip|
+        files.each { |file| zip.add(File.basename(file), file) }
       end
       zip_path
     end
@@ -156,13 +152,12 @@ module Passkit
 
     def compress_pass_file
       zip_path = TMP_FOLDER.join("#{@pass.file_name}.pkpass")
-      zipped_file = File.open(zip_path, "w")
+      FileUtils.rm_f(zip_path)
 
-      Zip::OutputStream.open(zipped_file.path) do |z|
-        Dir.glob(@temporary_path.join("**")).each do |file|
-          z.put_next_entry(File.basename(file))
-          z.print File.read(file)
-        end
+      # Entries added from files have a known size, so rubyzip writes a plain zip without the Zip64 extra fields
+      # it adds to streamed entries since 3.0.
+      Zip::File.open(zip_path, create: true) do |zip|
+        Dir.glob(@temporary_path.join("**")).each { |file| zip.add(File.basename(file), file) }
       end
       zip_path
     end

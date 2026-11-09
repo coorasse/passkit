@@ -24,4 +24,17 @@ class TestGenerator < ActiveSupport::TestCase
 
     refute File.directory?(Passkit::Generator::TMP_FOLDER.join(pass.file_name.to_s))
   end
+
+  def test_generate_and_sign_writes_a_zip_without_zip64_entries
+    pass = Passkit::Pass.create!(klass: Passkit::ExampleStoreCard)
+
+    path = Passkit::Generator.new(pass).generate_and_sign
+
+    Zip::File.open(path) do |zip|
+      assert_equal 7, zip.size
+      zip.each { |entry| refute entry.zip64?, "#{entry.name} must not be a Zip64 entry, Wallet rejects those" }
+    end
+  ensure
+    FileUtils.rm_f(path) if path
+  end
 end
