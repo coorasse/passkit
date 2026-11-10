@@ -11,7 +11,7 @@ blocks:
       minutes: 10
     task:
       secrets:
-        - name: rubygems
+        - name: passkit
       jobs:
         - name: build and push to rubygems.org
           commands:
