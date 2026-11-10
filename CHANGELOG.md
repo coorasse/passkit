@@ -1,7 +1,7 @@
-## [Unreleased]
-- **Breaking:** require rubyzip 3.4 or later, which fixes CVE-2026-85396, and Ruby 3.2 or later.
-- Remove the generator's working directory once the `.pkpass` is built, and delete generated archives after sending them, so `tmp/passkit` no longer grows with every download.
-- Answer `304 Not Modified` before generating and signing the pass when `If-Modified-Since` shows the device already has the current version.
+## [0.9.0]
+- [#50](https://github.com/coorasse/passkit/pull/50): **Breaking:** require rubyzip 3.4 or later, which fixes CVE-2026-85396, and Ruby 3.2 or later.
+- [#47](https://github.com/coorasse/passkit/pull/47): Remove the generator's working directory once the `.pkpass` is built, and delete generated archives after sending them, so `tmp/passkit` no longer grows with every download.
+- [#48](https://github.com/coorasse/passkit/pull/48): Answer `304 Not Modified` before generating and signing the pass when `If-Modified-Since` shows the device already has the current version.
 
 ## [0.8.3]
 - Exclude development and test files from the packaged gem.
