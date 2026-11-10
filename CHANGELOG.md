@@ -1,4 +1,5 @@
 ## [Unreleased]
+- **Breaking:** require rubyzip 3.4 or later, which fixes CVE-2026-85396, and Ruby 3.2 or later.
 - Remove the generator's working directory once the `.pkpass` is built, and delete generated archives after sending them, so `tmp/passkit` no longer grows with every download.
 - Answer `304 Not Modified` before generating and signing the pass when `If-Modified-Since` shows the device already has the current version.
 

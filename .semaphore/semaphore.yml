@@ -21,16 +21,26 @@ blocks:
       prologue:
         commands:
           - checkout --use-cache
-          - sem-version ruby 3.3
-          - cache restore gems-$(checksum passkit.gemspec)-$(checksum Gemfile)
+          - sem-version ruby ${RUBY_VERSION:-3.4}
+          - export GEMS_CACHE_KEY=gems-${RUBY_VERSION:-3.4}-${RUBYZIP_VERSION:-latest}-$(checksum passkit.gemspec)-$(checksum Gemfile)
+          - cache restore $GEMS_CACHE_KEY
           - bundle install -j 4
-          - cache store gems-$(checksum passkit.gemspec)-$(checksum Gemfile) vendor/bundle
+          - cache store $GEMS_CACHE_KEY vendor/bundle
           - bin/generate_test_certificates
       jobs:
         - name: linter
           commands:
             - bundle exec standardrb
         - name: tests
+          matrix:
+            - env_var: RUBY_VERSION
+              values: ["3.2", "3.3", "3.4", "4.0"]
+          commands:
+            - bundle exec rake test
+        - name: tests with the lowest rubyzip
+          matrix:
+            - env_var: RUBYZIP_VERSION
+              values: ["3.4.0"]
           commands:
             - bundle exec rake test
         - name: system tests
