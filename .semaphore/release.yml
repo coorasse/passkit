@@ -2,8 +2,8 @@ version: "v1.0"
 name: Release gem
 agent:
   machine:
-    type: f1-standard-2
-    os_image: ubuntu2204
+    type: r1-standard-2
+    os_image: ubuntu2404
 
 blocks:
   - name: publish
